@@ -34,10 +34,38 @@ STEP-5: Display the obtained cipher text.
 
 
 
-Program:
+## Program:
 
+```
+#include <stdio.h>
+#include <string.h>
+int main() {
+    char msg[100];
+    char mat[5][5] = { {'K','E','Y','W','O'}, {'R','D','A','B','C'}, 
+                       { 'F','G','H','I','L'}, {'M','N','P','Q','S'}, {'T','U','V','X','Z'} };    
+    printf("Enter an uppercase message (No J): ");
+    scanf("%s", msg);    
+    int len = strlen(msg);
+    if (len % 2 != 0) { msg[len] = 'X'; msg[len + 1] = '\0'; len++; }
+    printf("Encrypted message: ");
+    for (int k = 0; k < len; k += 2) {
+        int r1, c1, r2, c2;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (mat[i][j] == msg[k])   { r1 = i; c1 = j; }
+                if (mat[i][j] == msg[k+1]) { r2 = i; c2 = j; }
+            }
+        }
+        if (r1 == r2)      printf("%c%c", mat[r1][(c1 + 1) % 5], mat[r2][(c2 + 1) % 5]);
+        else if (c1 == c2) printf("%c%c", mat[(r1 + 1) % 5][c1], mat[(r2 + 1) % 5][c2]);
+        else               printf("%c%c", mat[r1][c2], mat[r2][c1]);
+    }
+    printf("\n");
+    return 0;
+}
 
+```
 
+## Output:
 
-
-Output:
+![alt text](image.png)
